@@ -39,3 +39,19 @@ isChar (Character _) = True
 isChar _ = False
 isBool (Bool _) = True
 isBool _ = False
+
+foldm1 :: (a -> a -> ThrowsError a) -> [a] -> ThrowsError a
+foldm1 f (x:y:xs) = go (f x y) xs
+  where go acc (x:xs) = do cur <- acc
+                           go (f cur x) xs
+        go acc [] = acc
+foldm1 f _= throwError $ NumArgs 2 []
+
+unpackStr :: LispVal -> ThrowsError String
+unpackStr (String s) = return s
+unpackStr (Number s) = return $ show s
+unpackStr (Bool s)   = return $ show s
+unpackStr notString  = throwError $ TypeMismatch "string" notString
+unpackBool :: LispVal -> ThrowsError Bool
+unpackBool (Bool b) = return b
+unpackBool notBool  = throwError $ TypeMismatch "boolean" notBool

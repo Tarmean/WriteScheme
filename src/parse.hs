@@ -41,12 +41,13 @@ parseBool =  pTrue <|> pFalse
   where pTrue = try (string "#t") >> return (Bool True)
         pFalse = try (string "#f") >> return (Bool False)
 parseChar :: Parser LispVal
-parseChar = try (string "#\\") >> Character . lookupChar <$> many alphaNum
+parseChar = try (string "#\\") >> (try (many1 letter)<|>fmap (:[])anyChar) >>= (fmap Character) . lookupChar
   where
-    lookupChar "" = ' '
-    lookupChar "space" = ' '
-    lookupChar "newline" = '\n'
-    lookupChar [c] = c
+    lookupChar "" = return ' '
+    lookupChar "space" = return ' '
+    lookupChar "newline" = return '\n'
+    lookupChar [c] = return c
+    lookupChar other = fail $ "Illegal Character: \\#" ++ other
 
 parseNumber :: Parser LispVal
 parseNumber = Number <$> (try parseComplex <|> try parseFloat <|> try parseRational <|> parseInteger)
