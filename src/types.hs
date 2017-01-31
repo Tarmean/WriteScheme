@@ -1,4 +1,5 @@
 module Types (LispVal(..), Number(..), NumberType(..), LispError(..), ThrowsError, throwError) where
+import Text.Printf
 import Data.Complex
 import Data.Array
 import Data.Ratio (numerator, denominator)
@@ -40,9 +41,10 @@ extractValue (Right val) = val
 
 instance Show LispVal where
   show (Atom name) = name
-  show (List ls) = "(" ++ showL ls ++ ")"
-  show (DottedList ls l) = "(" ++ showL ls ++ "." ++ show l ++ ")"
-  show (Number (Rational n)) = show (numerator n) ++ "/" ++ show (denominator n)
+  show (List ls) = printf "(%s)" $ showL ls
+  show (DottedList ls l) = printf "(%s.%s)" (showL ls) (show l)
+  show (Number (Rational n)) = printf "%i/%i" (numerator n)(denominator n)
+  show (Number (Real n)) = printf "%g" n
   show (Number n) = show n
   show (String s) = show s
   show (Character c) = "#\\"++[c]

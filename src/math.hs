@@ -54,11 +54,10 @@ numericBinop :: (LispVal -> LispVal -> ThrowsError LispVal) -> [LispVal] -> Thro
 numericBinop = foldm1
 
 mathPrimitives :: [(String, [LispVal] -> ThrowsError LispVal)]
-mathPrimitives = [("+", numericBinop $liftNum (+)),
-              ("-", numericBinop $liftNum (-)),
-              ("*", numericBinop $liftNum (*)),
-              ("/", numericBinop $liftFrac (/)),
-              ("mod", numericBinop $ liftIntegral mod),
-              ("quotient", numericBinop $ liftIntegral quot),
-              ("remainder", numericBinop $ liftIntegral rem)
-              ]
+mathPrimitives = [("+", numericBinop $liftNum (+))
+                 ,("-", numericBinop $liftNum (-))
+                 ,("*", numericBinop $liftNum (*))
+                 ,("/", numericBinop $liftFrac (/))
+                 ,("mod", numericBinop $ liftIntegral mod)
+                 ,("quotient", numericBinop $ liftIntegral quot)
+                 ,("remainder", numericBinop $ liftIntegral rem)]

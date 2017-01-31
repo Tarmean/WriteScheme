@@ -23,6 +23,7 @@ typePrimitives = [("symbol?", testAll isSymbol)
                  ,("number?", testAll isNumber)
                  ,("char?", testAll isChar)
                  ,("bool?", testAll isBool)]
+
 testAll :: (LispVal -> Bool) -> [LispVal] -> ThrowsError LispVal
 testAll f = return . Bool . all f
 isSymbol (Atom _) = True

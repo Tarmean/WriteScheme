@@ -73,7 +73,7 @@ parseTrailing leading = do
   trailing <- parseLower
   exp <- option 0 parseExp
   return $ (realToFrac leading + trailing) * realToFrac (10 ^^ exp)
-parseExp = oneOf "eE" >> pNat 10 digit
+parseExp = oneOf "eE" >> pInt 10 digit
 parseLower = do
  char '.'
  digits <- many1 digit
