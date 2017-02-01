@@ -15,7 +15,7 @@ data LispVal = Atom String
              | Bool Bool
 
 data Number = Integer Integer | Rational Rational | Real Double | Complex (Complex Double)
-data NumberType = IntType | RationalType | RealType | ComplexType | NotANumType deriving (Eq, Ord, Show)
+data NumberType = IntType | RationalType | RealType | ComplexType | NaNType deriving (Eq, Ord, Show)
 
 data LispError = NumArgs Integer [LispVal]
                | TypeMismatch String LispVal
